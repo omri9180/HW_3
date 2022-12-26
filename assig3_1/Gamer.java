@@ -8,7 +8,7 @@ public class Gamer extends Thread {
     public Gamer() {
         gp = new GamePlay();
     }
-
+//hello world
     public void play() throws InterruptedException {
         while (!isInterrupted() && gp.getRound_counter() <= 10) {
             if (gp.flipCoin()) {
