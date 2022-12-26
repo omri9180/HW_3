@@ -9,9 +9,9 @@ public class Gamer extends Thread {
         this.gp = game_p;
     }
 
-    public void play() throws InterruptedException {
+    public synchronized void play() throws InterruptedException {
         if (gp.flipCoin()) {
-            gp.incTree_count();
+            incTree_count();
             incGoodFilpCounter();
             Thread.sleep(1000);
         }
@@ -33,6 +33,14 @@ public class Gamer extends Thread {
 
     public void incGoodFilpCounter() {
         this.goodFilpCounter++;
+    }
+
+    public void incTree_count() {
+        this.tree_count++;
+    }
+
+    public int getTree_count() {
+        return tree_count;
     }
 
 

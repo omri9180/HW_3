@@ -3,15 +3,19 @@ package assig3_1;
 import java.util.Random;
 
 public class GamePlay {
-    private Random rand = new Random();
+    private Random rand;
     private int ran;
     private boolean coin_available;
     private int round_counter = 0;
-    private int tree_count = 0;
 
-    private Judge game_jude = new Judge();
+    private Judge game_judge;
 
-    protected void makeCoinAvail(boolean val) {
+    public GamePlay() {
+        game_judge = new Judge();
+        rand  = new Random();
+    }
+
+    public void makeCoinAvail(boolean val) {
         if (val) {
             setCoin_available(val);
             notifyAll();
@@ -20,12 +24,12 @@ public class GamePlay {
         }
     }
 
-    public synchronized boolean flipCoin() throws InterruptedException {
 
+    public synchronized boolean flipCoin() throws InterruptedException {
         while (!isCoin_available()) {
             this.wait();
             System.out.println(Thread.currentThread().getName() + " is waiting for coin");
-            game_jude.judgeRoll();
+            game_judge.judgeRoll();
             notifyAll();
 
             if (isCoin_available()) {
@@ -41,13 +45,6 @@ public class GamePlay {
         return ran == 1;
     }
 
-    public void incTree_count() {
-        this.tree_count++;
-    }
-
-    public int getTree_count() {
-        return tree_count;
-    }
 
     public boolean isCoin_available() {
         return coin_available;
