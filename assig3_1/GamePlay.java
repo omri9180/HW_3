@@ -11,7 +11,7 @@ public class GamePlay {
 
     private Judge game_jude = new Judge();
 
-    public void makeCoinAvail(boolean val) {
+    protected void makeCoinAvail(boolean val) {
         if (val) {
             setCoin_available(val);
             notifyAll();
@@ -27,17 +27,18 @@ public class GamePlay {
             System.out.println(Thread.currentThread().getName() + " is waiting for coin");
             game_jude.judgeRoll();
             notifyAll();
-        }
-        if (isCoin_available()) {
-            this.makeCoinAvail(false);
-            System.out.println(Thread.currentThread().getName() + " is flipping coin");
-            incRound_counter();
-            ran = rand.nextInt(2);
-            this.makeCoinAvail(true);
-            notifyAll();
+
+            if (isCoin_available()) {
+                this.makeCoinAvail(false);
+                System.out.println(Thread.currentThread().getName() + " is flipping coin");
+                incRound_counter();
+                ran = rand.nextInt(2);
+                this.makeCoinAvail(true);
+                notifyAll();
+            }
         }
 
-        return ran==1?true:false;
+        return ran == 1;
     }
 
     public void incTree_count() {

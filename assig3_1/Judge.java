@@ -1,21 +1,20 @@
 package assig3_1;
 
-public class Judge extends Gamer {
+public class Judge extends GamePlay{
 
-    GamePlay judgeGp;
 
-    public Judge() {
-        judgeGp = new GamePlay();
-    }
+
 
     public void judgeRoll() throws InterruptedException {
-        while (!isInterrupted()) {
-            judgeGp.makeCoinAvail(false);
+        while (!is()) {
+            makeCoinAvail(false);
             Thread.sleep(1000);
-            judgeGp.makeCoinAvail(true);
+            makeCoinAvail(true);
             Thread.sleep(500);
         }
     }
+
+
 }
 
 

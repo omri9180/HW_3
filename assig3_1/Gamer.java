@@ -5,22 +5,26 @@ public class Gamer extends Thread {
     private int tree_count = 0;
     int goodFilpCounter = 0;
 
-    public Gamer() {
-        gp = new GamePlay();
+    public Gamer(GamePlay game_p) {
+        this.gp = game_p;
     }
 
     public void play() throws InterruptedException {
-        while (!isInterrupted() && gp.getRound_counter() <= 10) {
-            if (gp.flipCoin()) {
-                incGoodFilpCounter();
-                gp.incTree_count();
-                Thread.sleep(1000);
-            }
+        if (gp.flipCoin()) {
+            gp.incTree_count();
+            incGoodFilpCounter();
+            Thread.sleep(1000);
         }
     }
 
+
     public int getScore() {
         return getGoodFilpCounter();
+    }
+
+    @Override
+    public boolean isInterrupted() {
+        return super.isInterrupted();
     }
 
     public int getGoodFilpCounter() {
@@ -32,10 +36,14 @@ public class Gamer extends Thread {
     }
 
 
-
     @Override
     public void run() {
-
-
+        while (!isInterrupted() && gp.getRound_counter() <= 10) {
+            try {
+                play();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
