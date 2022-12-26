@@ -7,37 +7,45 @@ public class GamePlay {
     private int ran;
     private boolean coin_available;
     private int round_counter = 0;
+    private int tree_count = 0;
 
+    private Judge game_jude = new Judge();
 
     public void makeCoinAvail(boolean val) {
         if (val) {
-            coin_available = val;
+            setCoin_available(val);
             notifyAll();
         } else {
-            coin_available = val;
+            setCoin_available(val);
         }
     }
 
     public synchronized boolean flipCoin() throws InterruptedException {
+
+        while (!isCoin_available()) {
+            this.wait();
+            System.out.println(Thread.currentThread().getName() + " is waiting for coin");
+            game_jude.judgeRoll();
+            notifyAll();
+        }
         if (isCoin_available()) {
+            this.makeCoinAvail(false);
             System.out.println(Thread.currentThread().getName() + " is flipping coin");
-            makeCoinAvail(false);
             incRound_counter();
             ran = rand.nextInt(2);
-            makeCoinAvail(true);
+            this.makeCoinAvail(true);
             notifyAll();
-        } else {
-            while (!isCoin_available()) {
-                this.wait();
-                System.out.println(Thread.currentThread().getName() + " is waiting for coin");
-            }
-
-        }
-        if (ran == 1) {
-            return true;
         }
 
-        return false;
+        return ran==1?true:false;
+    }
+
+    public void incTree_count() {
+        this.tree_count++;
+    }
+
+    public int getTree_count() {
+        return tree_count;
     }
 
     public boolean isCoin_available() {
@@ -56,4 +64,6 @@ public class GamePlay {
     public void setCoin_available(boolean coin_available) {
         this.coin_available = coin_available;
     }
+
+
 }

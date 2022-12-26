@@ -5,5 +5,8 @@ public class Main {
         GamePlay g1 = new GamePlay();
         Gamer gam1 = new Gamer();
         Gamer gam2 = new Gamer();
+
+        gam2.start();
+        gam1.start();
     }
 }

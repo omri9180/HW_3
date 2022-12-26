@@ -2,6 +2,7 @@ package assig3_1;
 
 public class Gamer extends Thread {
     GamePlay gp;
+    private int tree_count = 0;
     int goodFilpCounter = 0;
 
     public Gamer() {
@@ -12,6 +13,7 @@ public class Gamer extends Thread {
         while (!isInterrupted() && gp.getRound_counter() <= 10) {
             if (gp.flipCoin()) {
                 incGoodFilpCounter();
+                gp.incTree_count();
                 Thread.sleep(1000);
             }
         }
@@ -29,8 +31,11 @@ public class Gamer extends Thread {
         this.goodFilpCounter++;
     }
 
+
+
     @Override
     public void run() {
+
 
     }
 }
